@@ -24,6 +24,7 @@ namespace employee_payroll_test
 
                     this.sqlConnection.Open();
                     SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                    
 
                     if (sqlDataReader.HasRows)
                     {
@@ -50,7 +51,7 @@ namespace employee_payroll_test
                 }
                 
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
                 throw new Exception(e.Message);
             }
@@ -60,40 +61,75 @@ namespace employee_payroll_test
             }
         }
 
-        public bool AddEmployee(EmployeeModel employee)
+        public EmployeeModel AddEmployee( decimal basicPay,decimal deductions,decimal taxablePay,decimal NetPay)
         {
+            EmployeeModel employee = null;
+
+            string sql = String.Format("Insert into payroll(basicPay,deductions,taxablePay,NetPay)" + "Values( '%s','%s','%s','%s')", basicPay, deductions, taxablePay, NetPay);
+
+
             try
             {
                 using (this.sqlConnection)
                 {
-
-                    SqlCommand cmd = new SqlCommand("payroll_sp", this.sqlConnection);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@emp_Id", employee.emp_Id);
-                    cmd.Parameters.AddWithValue("@basicPay", employee.basicPay);
-                    cmd.Parameters.AddWithValue("@deductions", employee.deductions);
-                    cmd.Parameters.AddWithValue("@taxablePay", employee.taxablePay);
-                    cmd.Parameters.AddWithValue("@NetPay", employee.NetPay);
-
+                    SqlCommand command = new SqlCommand(sql, this.sqlConnection);
                     this.sqlConnection.Open();
-                    var result = cmd.ExecuteNonQuery();
-                    this.sqlConnection.Close();
-                    if (result != 0)
-                        return true;
-                    else
-                        return false;
+                    var rows_Affected = command.ExecuteNonQuery();
+
+                    if (rows_Affected != -1)
+                    {
+                         var id = command.Parameters["emp_Id"].Value.ToString();
+                        employee.emp_Id = int.Parse(id);
+                        employee.basicPay = basicPay;
+                        employee.deductions = deductions;
+                        employee.taxablePay = taxablePay;
+                        employee.NetPay = NetPay;
+
+                        
+                    }
+                    
                 }
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            this.sqlConnection.Close();
+            return employee;
+            
+            //try
+            //{
+            //    using (this.sqlConnection)
+            //    {
+
+            //        SqlCommand cmd = new SqlCommand("payroll_sp", this.sqlConnection);
+            //        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //        cmd.Parameters.AddWithValue("@emp_Id", employee.emp_Id);
+            //        cmd.Parameters.AddWithValue("@basicPay", employee.basicPay);
+            //        cmd.Parameters.AddWithValue("@deductions", employee.deductions);
+            //        cmd.Parameters.AddWithValue("@taxablePay", employee.taxablePay);
+            //        cmd.Parameters.AddWithValue("@NetPay", employee.NetPay);
+
+            //        this.sqlConnection.Open();
+            //        var result = cmd.ExecuteNonQuery();
+            //        this.sqlConnection.Close();
+            //        if (result != 0)
+            //            return true;
+            //        else
+            //            return false;
+            //    }
                 
 
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.sqlConnection.Close();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception(e.Message);
+            //}
+            //finally
+            //{
+            //    this.sqlConnection.Close();
+            //}
         }
     }
 }

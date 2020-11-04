@@ -1,4 +1,5 @@
-﻿using System;
+﻿using employee_payroll;
+using System;
 
 namespace employee_payroll_test
 {
@@ -7,16 +8,16 @@ namespace employee_payroll_test
         static void Main(string[] args)
         {
             EmployeeRepo employee = new EmployeeRepo();
-            EmployeeModel employeeModel = new EmployeeModel();
+            EmployeeModel employeeModel = new EmployeeModel() {basicPay=1000,deductions=200,taxablePay=100,NetPay=600 };
 
-            employeeModel.emp_Id = 125;
-            employeeModel.basicPay = 3000;
-            employeeModel.deductions = 200;
-            employeeModel.taxablePay = 300;
-            employeeModel.NetPay = 2500;
+
+            EmpPayrollService empPayroll = new EmpPayrollService();
+            empPayroll.FindSumAvgMinMax();
 
             //employee.AddEmployee(employeeModel);
-            employee.getAllEmployees();
+            //UpdateSalary update = new UpdateSalary();
+            //update.UpdateEmpSalry(employeeModel);
+            
         }
     }
 }
