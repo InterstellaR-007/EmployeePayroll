@@ -11,12 +11,11 @@ namespace employee_payroll_test
             EmployeeModel employeeModel = new EmployeeModel() {basicPay=1000,deductions=200,taxablePay=100,NetPay=600 };
 
 
-            EmpPayrollService empPayroll = new EmpPayrollService();
-            empPayroll.FindSumAvgMinMax();
+            //EmpPayrollService empPayroll = new EmpPayrollService();
+            //empPayroll.FindSumAvgMinMax();
 
-            //employee.AddEmployee(employeeModel);
-            //UpdateSalary update = new UpdateSalary();
-            //update.UpdateEmpSalry(employeeModel);
+            //employee.AddEmployeeUsingThread(100, 10, 200, 10, 1000);
+
             
         }
     }

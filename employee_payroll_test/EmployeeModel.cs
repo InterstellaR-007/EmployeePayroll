@@ -14,6 +14,21 @@ namespace employee_payroll_test
 
         public decimal NetPay { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            var employee = obj as EmployeeModel;
+
+            if (employee ==null)
+            {
+                return false;
+            }
+            return (this.basicPay == employee.basicPay) && (this.deductions == employee.deductions) && (this.taxablePay == employee.taxablePay) && (this.NetPay== employee.NetPay);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
 
     }
 }
