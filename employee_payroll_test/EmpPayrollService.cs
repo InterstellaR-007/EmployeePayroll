@@ -61,7 +61,7 @@ namespace employee_payroll
                 using (sqlConnection)
                 {
                     this.sqlConnection.Open();
-                    EmployeeModel employee = new EmployeeModel();
+                    PayrollModel employee = new PayrollModel();
                     SqlCommand command = new SqlCommand("findEmployeesBetweenRange", sqlConnection);
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -101,7 +101,7 @@ namespace employee_payroll
             return isExist;
         }
 
-        public int UpdateEmpSalary(EmployeeModel employee)
+        public int UpdateEmpSalary(PayrollModel employee)
         {
             int salary = 0;
             try
@@ -109,7 +109,7 @@ namespace employee_payroll
                 using (sqlConnection)
                 {
                     this.sqlConnection.Open();
-                    EmployeeModel employee_model = new EmployeeModel();
+                    PayrollModel employee_model = new PayrollModel();
                     SqlCommand command = new SqlCommand("updateEmployeeSalary", sqlConnection);
                     command.CommandType = CommandType.StoredProcedure;
 

@@ -8,7 +8,7 @@ namespace employee_payroll_test
         static void Main(string[] args)
         {
             EmployeeRepo employee = new EmployeeRepo();
-            EmployeeModel employeeModel = new EmployeeModel() {basicPay=1000,deductions=200,taxablePay=100,NetPay=600 };
+            PayrollModel employeeModel = new PayrollModel() {basicPay=1000,deductions=200,taxablePay=100,NetPay=600 };
 
 
             //EmpPayrollService empPayroll = new EmpPayrollService();

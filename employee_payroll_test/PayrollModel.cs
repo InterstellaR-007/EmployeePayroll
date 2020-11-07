@@ -4,7 +4,7 @@ using System.Text;
 
 namespace employee_payroll_test
 {
-    public class EmployeeModel
+    public class PayrollModel
     {
         public int emp_Id { get; set; }
         public decimal basicPay{ get; set; }
@@ -16,7 +16,7 @@ namespace employee_payroll_test
 
         public override bool Equals(object obj)
         {
-            var employee = obj as EmployeeModel;
+            var employee = obj as PayrollModel;
 
             if (employee ==null)
             {
