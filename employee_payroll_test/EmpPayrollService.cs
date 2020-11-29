@@ -123,7 +123,7 @@ namespace employee_payroll
                     {
                         while (dr.Read())
                         {
-                            employee_model.emp_Id = Convert.ToInt32(dr["emp_ID"]);
+                            employee_model.emp_Id = Convert.ToInt32(dr["id"]);
                             employee_model.basicPay = Convert.ToDecimal(dr["basicPay"]);
                             employee_model.deductions = Convert.ToDecimal(dr["deductions"]);
                             employee_model.taxablePay = Convert.ToDecimal(dr["taxablePay"]);

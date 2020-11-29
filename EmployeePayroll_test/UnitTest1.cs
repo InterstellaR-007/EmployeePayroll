@@ -17,9 +17,9 @@ namespace EmployeePayroll_test
         [Test]
         public void GivenSalaryDetails_AbleTOUpdateSalry()
         {
-
+            //Change emp_ID as it is unique for assertion to be true
             EmpPayrollService update = new EmpPayrollService();
-            EmployeeModel employee = new EmployeeModel() {emp_Id=111, basicPay = 100, deductions = 20, taxablePay = 1000, NetPay = 30000 };
+            EmployeeModel employee = new EmployeeModel() {emp_Id=130, basicPay = 100, deductions = 20, taxablePay = 1000, NetPay = 30000 };
 
             int EmpSalary = update.UpdateEmpSalary(employee);
             Assert.AreEqual(employee.basicPay, EmpSalary);
@@ -32,7 +32,7 @@ namespace EmployeePayroll_test
 
             EmpPayrollService update = new EmpPayrollService();
             EmployeeModel employee = new EmployeeModel() { emp_Id = 111, basicPay = 100, deductions = 20, taxablePay = 1000, NetPay = 30000 };
-            bool isExists = update.FindEmpBetweenRange("2013-01-01", "2013-09-09");
+            bool isExists = update.FindEmpBetweenRange("2013-01-01", "2014-09-09");
 
             
             Assert.AreEqual(true,isExists);
