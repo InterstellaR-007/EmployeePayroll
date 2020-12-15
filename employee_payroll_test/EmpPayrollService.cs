@@ -29,22 +29,28 @@ namespace employee_payroll
             try
             {
                 EmployeeTableModel employee = new EmployeeTableModel();
+
                 using (sqlConnection)
                 {
-
+                    //DQL Statement written in String format
                     string query = @"Select * from employee_payroll";
 
+                    //Create and initialise command object
                     SqlCommand cmd = new SqlCommand(query, sqlConnection);
 
+                    //Open connection
                     sqlConnection.Open();
+
+                    //Execute DQL operation
                     SqlDataReader sqlDataReader = cmd.ExecuteReader();
 
-
+                    //If Query results in rows
                     if (sqlDataReader.HasRows)
                     {
                         Console.WriteLine(employeeTable_FieldTitle);
                         while (sqlDataReader.Read())
                         {
+                            //Setting employee object properties
                             employee.emp_Id = sqlDataReader.GetInt32(0);
                             employee.name = sqlDataReader.GetString(1);
                             employee.salary = sqlDataReader.GetDecimal(2);
@@ -134,19 +140,30 @@ namespace employee_payroll
         /// <param name="employee">The employee.</param>
         public bool AddEmployeeToPayrollTable(PayrollModel employee)
         {
+
+            // DML statement for inserting Employee object stored as String
             string sql = String.Format("Insert into payroll(id,basicPay,deductions,taxablePay,NetPay)" + "Values( {0},{1},{2},{3},{4})" , employee.emp_Id, employee.basicPay, employee.deductions, employee.taxablePay, employee.NetPay);
 
 
             try
             {
-                using (sqlConnection)
+                using (SqlConnection sqlConnection_add = new SqlConnection(connection))
                 {
-                    SqlCommand command = new SqlCommand(sql, sqlConnection);
-                    sqlConnection.Open();
+
+                    //set command with sql string argument
+                    SqlCommand command = new SqlCommand(sql, sqlConnection_add);
+
+                    //Open connection
+                    sqlConnection_add.Open();
+
+                    //Executing DML operation, getting affect rows due to operation
                     int rows_Affected = command.ExecuteNonQuery();
 
+
+                    //If insertion affected the rows in table
                     if (rows_Affected==1)
                     {
+                        //Set Insertion flag returning it True
                         return true;
 
 
@@ -158,6 +175,7 @@ namespace employee_payroll
             {
                 Console.WriteLine(e.Message);
             }
+            
 
             return false;
         }
@@ -171,6 +189,8 @@ namespace employee_payroll
         /// <returns></returns>
         public bool DeleteEmployeeFromPayrollTable(int emp_ID)
         {
+
+            // DML statement for inserting Employee object stored as String
             string sql = String.Format("Delete from payroll where id={0}", emp_ID);
 
 
@@ -178,12 +198,18 @@ namespace employee_payroll
             {
                 using (sqlConnection)
                 {
+
+                    //set command with sql string argument
                     SqlCommand command = new SqlCommand(sql, sqlConnection);
                     sqlConnection.Open();
+
+                    //Execute Deletion operation 
                     int rows_Affected = command.ExecuteNonQuery();
 
+                    //If deletion affected the rows
                     if (rows_Affected > 0)
                     {
+                        //set Deletion flag to True and return
                         return true;
 
 
@@ -194,6 +220,11 @@ namespace employee_payroll
             catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                //Close connection
+                sqlConnection.Close();
             }
 
             return false;
@@ -207,19 +238,28 @@ namespace employee_payroll
         /// <param name="employee">The employee.</param>
         public bool AddEmployeeToEmployeeTable(EmployeeTableModel employee)
         {
+
+            // DML statement for inserting Employee object stored as String
             string sql = String.Format("Insert into employee_payroll(id, name, salary, start_date, gender)" + "Values({0},'{1}',{2},'{3}','{4}')" , employee.emp_Id, employee.name, employee.salary, employee.start_date, employee.gender);
-            // 
+            
 
             try
             {
-                using (sqlConnection)
+                using (SqlConnection sqlConnection_add = new SqlConnection(connection))
                 {
-                    SqlCommand command = new SqlCommand(sql, sqlConnection);
-                    sqlConnection.Open();
+                    //set command with sql string argument
+                    SqlCommand command = new SqlCommand(sql, sqlConnection_add);
+
+                    //opening connection
+                    sqlConnection_add.Open();
+
+                    //Executing DML operation, getting affect rows due to operation
                     int rows_Affected = command.ExecuteNonQuery();
 
+                    //If Data/Row is added
                     if (rows_Affected==1)
                     {
+                        //set Insertion flag to True
                         return true;
                     }
                     
@@ -232,7 +272,12 @@ namespace employee_payroll
             {
                 Console.WriteLine(e.Message);
             }
+            finally
+            {
 
+                //Close connection
+                sqlConnection.Close();
+            }
             return false;
             
         }
@@ -278,25 +323,31 @@ namespace employee_payroll
                 using (this.sqlConnection)
                 {
                     SqlCommand sql = new SqlCommand(query, sqlConnection);
+                    //Open Connection
                     this.sqlConnection.Open();
                     SqlDataReader sqlData = sql.ExecuteReader();
+
+                    //Check Query gives any result/rows
                     if (sqlData.HasRows)
                     {
+                        //Read rows by iterating 
                         while (sqlData.Read())
                         {
-                            Console.WriteLine(sqlData.GetDecimal(0) + " " + sqlData.GetDecimal(1) + " " + sqlData.GetDecimal(2) + " " + sqlData.GetDecimal(3));
+                            Console.WriteLine("Sum Salary:"+sqlData.GetDecimal(0) + " Avg Salary:" + sqlData.GetDecimal(1) + " Min Salary:" + sqlData.GetDecimal(2) + " Max Salary" + sqlData.GetDecimal(3));
 
                         }
                     }
                     else
                         Console.WriteLine("no data");
 
+                    //Closing sql Data reader operation
                     sqlData.Close();
                     sqlConnection.Close();
                 }
             }
             catch (SqlException e)
             {
+                //catches sql based exception
                 throw new Exception(e.Message);
             }
             
@@ -317,29 +368,41 @@ namespace employee_payroll
             {
                 using (sqlConnection)
                 {
+                    //Opening Connection
                     this.sqlConnection.Open();
                     PayrollModel employee = new PayrollModel();
+
+                    //Setting command object with defined stored procedure name
                     SqlCommand command = new SqlCommand("findEmployeesBetweenRange", sqlConnection);
+
+                    //setting commmand type to stored procedure
                     command.CommandType = CommandType.StoredProcedure;
 
+                    //Adding date range parameters to the command object
                     command.Parameters.AddWithValue("@firstRange", firstRange);
                     command.Parameters.AddWithValue("@lastRange", lastRange);
 
+                    //excecute Sql Data Reader for DQL operation
                     SqlDataReader dataReader = command.ExecuteReader();
+
+                    //If Query gives back result/rows
                     if (dataReader.HasRows)
                     {
+                        //Read Rows through Result set one by one
                         while (dataReader.Read())
                         {
                             id  = Convert.ToInt32(dataReader["id"]);
                             name = Convert.ToString(dataReader["name"]);
-                            Console.WriteLine(id + " " + name);
+                            Console.WriteLine("Employee ID:"+id + " Name:" + name+"\n");
+
+                            //Employee exist between range
                             isExist = true;
                             
                         }
                     }
                     else
                     {
-                        Console.WriteLine("No records exist");
+                        Console.WriteLine("No records exist\n");
                         isExist = false;
                     }
                     dataReader.Close();
@@ -353,6 +416,8 @@ namespace employee_payroll
             }
             finally
             {
+
+                //CLosing connection
                 this.sqlConnection.Close();
             }
             return isExist;
@@ -370,20 +435,26 @@ namespace employee_payroll
             {
                 using (sqlConnection)
                 {
+
                     this.sqlConnection.Open();
                     PayrollModel employee_model = new PayrollModel();
+
+                    //setting command type as stored procedure
                     SqlCommand command = new SqlCommand("updateEmployeeSalary", sqlConnection);
                     command.CommandType = CommandType.StoredProcedure;
 
+                    //Setting parameters for stored procedure, passed as arguments
                     command.Parameters.AddWithValue("@id", employee.emp_Id);
                     command.Parameters.AddWithValue("@basicPay", employee.basicPay);
                     command.Parameters.AddWithValue("@deductions", employee.deductions);
                     command.Parameters.AddWithValue("@taxablePay", employee.taxablePay);
                     command.Parameters.AddWithValue("@NetPay", employee.NetPay);
 
+                    //get affected rows count
                     int affected_Rows = command.ExecuteNonQuery();
 
-                    if (affected_Rows==1)
+                    //if rows affected
+                    if (affected_Rows>0)
                     {
                         return true;
 
@@ -391,6 +462,7 @@ namespace employee_payroll
                     }
                     else
                     {
+                        //Data with that particular ID doesnt exist
                         Console.WriteLine("No data found");
                     }
                     
