@@ -24,7 +24,7 @@ namespace EmployeePayroll_test
             EmpPayrollService update = new EmpPayrollService();
 
             ///Creating employee object to be updated 
-            PayrollModel employee = new PayrollModel() {emp_Id=131, basicPay = 100, deductions = 20, taxablePay = 1000, NetPay = 30000 };
+            PayrollModel employee = new PayrollModel() {emp_Id=210, basicPay = 100, deductions = 20, taxablePay = 1000, NetPay = 30000 };
 
             //Act
             bool EmpSalary = update.UpdateEmpSalary(employee);
