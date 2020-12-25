@@ -45,7 +45,7 @@ namespace employee_payroll_test
                 Console.WriteLine("3: Update an existing Employee Payroll Data in Payroll Table ");
                 Console.WriteLine("4: Display all the current Employee's Payroll in Payroll Table");
                 Console.WriteLine("5: Display all the current Employee's Data in Employee Table ");
-                Console.WriteLine("6: Display Sum Avg Min Max Salary grouped by Gender ");
+                Console.WriteLine("6: Display Sum Avg Min Max Salary grouped by Gender <M,F> ");
                 Console.WriteLine("7: Display Employee who joined between Date Range ");
                 Console.WriteLine("8: Delete specific Employee Payroll Data from Payroll Table");
                 Console.WriteLine("9: Exit Program");
@@ -156,11 +156,11 @@ namespace employee_payroll_test
 
                     case 7:
 
-                        Console.WriteLine("Enter the first Date");
+                        Console.WriteLine("Enter the first Date <YYYY-MM-DD>");
 
                         string firstDate = Console.ReadLine();
 
-                        Console.WriteLine("Enter the last Date");
+                        Console.WriteLine("Enter the last Date <YYYY-MM-DD>");
 
                         string lastDate = Console.ReadLine();
 
