@@ -1,9 +1,5 @@
 ﻿using employee_payroll;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace employee_payroll_test
@@ -29,9 +25,10 @@ namespace employee_payroll_test
             Parallel.ForEach(input_EmployeeList, (i) =>
             {
                 if(empPayrollServie.AddEmployeeToEmployeeTable(i)==true)
+                    //Adding Employee to List when Inserted successfully
                     EmployeeTableData.Add(i);
 
-                //Adding Employee to List when Inserted successfully
+                
             });
 
 
@@ -40,9 +37,10 @@ namespace employee_payroll_test
             Parallel.ForEach(input_PayrollList, (i) =>
             {
                 if(empPayrollServie.AddEmployeeToPayrollTable(i)==true)
+                    //Adding Employee to List when Inserted successfully
                     EmployeePayrollData.Add(i);
 
-                //Adding Employee to List when Inserted successfully
+                
             });
 
 

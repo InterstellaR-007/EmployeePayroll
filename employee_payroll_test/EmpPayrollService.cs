@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace employee_payroll
 {
+
     public class EmpPayrollService
     {
 
@@ -17,7 +17,7 @@ namespace employee_payroll
 
         public static string connection = @"Data Source=(localdb)\localdb_2;Initial Catalog=payroll_service;Integrated Security=True";
 
-        SqlConnection sqlConnection = new SqlConnection(connection);
+        
 
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace employee_payroll
             {
                 EmployeeTableModel employee = new EmployeeTableModel();
 
-                using (sqlConnection)
+                using (SqlConnection sqlConnection = new SqlConnection(connection))
                 {
                     //DQL Statement written in String format
                     string query = @"Select * from employee_payroll";
@@ -77,17 +77,22 @@ namespace employee_payroll
             {
                 throw new Exception(e.Message);
             }
+            
 
 
         }
 
 
+        /// <summary>
+        /// Gets the payroll table data.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void getPayrollTableData()
         {
             try
             {
                 PayrollModel employee = new PayrollModel();
-                using (sqlConnection)
+                using (SqlConnection sqlConnection = new SqlConnection(connection))
                 {
 
                     string query = @"Select * from payroll";
@@ -95,6 +100,7 @@ namespace employee_payroll
                     SqlCommand cmd = new SqlCommand(query, sqlConnection);
 
                     sqlConnection.Open();
+
                     SqlDataReader sqlDataReader = cmd.ExecuteReader();
 
 
@@ -128,7 +134,7 @@ namespace employee_payroll
             {
                 throw new Exception(e.Message);
             }
-
+            
 
         }
 
@@ -196,7 +202,7 @@ namespace employee_payroll
 
             try
             {
-                using (sqlConnection)
+                using (SqlConnection sqlConnection = new SqlConnection(connection))
                 {
 
                     //set command with sql string argument
@@ -221,11 +227,7 @@ namespace employee_payroll
             {
                 Console.WriteLine(e.Message);
             }
-            finally
-            {
-                //Close connection
-                sqlConnection.Close();
-            }
+            
 
             return false;
         }
@@ -272,12 +274,8 @@ namespace employee_payroll
             {
                 Console.WriteLine(e.Message);
             }
-            finally
-            {
-
-                //Close connection
-                sqlConnection.Close();
-            }
+            
+            
             return false;
             
         }
@@ -320,11 +318,11 @@ namespace employee_payroll
 
             try
             {
-                using (this.sqlConnection)
+                using (SqlConnection sqlConnection = new SqlConnection(connection))
                 {
                     SqlCommand sql = new SqlCommand(query, sqlConnection);
                     //Open Connection
-                    this.sqlConnection.Open();
+                    sqlConnection.Open();
                     SqlDataReader sqlData = sql.ExecuteReader();
 
                     //Check Query gives any result/rows
@@ -342,7 +340,7 @@ namespace employee_payroll
 
                     //Closing sql Data reader operation
                     sqlData.Close();
-                    sqlConnection.Close();
+                    
                 }
             }
             catch (SqlException e)
@@ -366,10 +364,10 @@ namespace employee_payroll
             string name = "";
             try
             {
-                using (sqlConnection)
+                using (SqlConnection sqlConnection = new SqlConnection(connection))
                 {
                     //Opening Connection
-                    this.sqlConnection.Open();
+                    sqlConnection.Open();
                     PayrollModel employee = new PayrollModel();
 
                     //Setting command object with defined stored procedure name
@@ -406,7 +404,7 @@ namespace employee_payroll
                         isExist = false;
                     }
                     dataReader.Close();
-                    this.sqlConnection.Close();
+                    
 
                 }
             }
@@ -414,12 +412,8 @@ namespace employee_payroll
             {
                 Console.WriteLine(e.Message);
             }
-            finally
-            {
-
-                //CLosing connection
-                this.sqlConnection.Close();
-            }
+           
+            
             return isExist;
         }
 
@@ -433,10 +427,10 @@ namespace employee_payroll
             
             try
             {
-                using (sqlConnection)
+                using (SqlConnection sqlConnection = new SqlConnection(connection))
                 {
 
-                    this.sqlConnection.Open();
+                    sqlConnection.Open();
                     PayrollModel employee_model = new PayrollModel();
 
                     //setting command type as stored procedure

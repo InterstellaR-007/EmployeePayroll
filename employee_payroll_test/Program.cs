@@ -3,40 +3,26 @@ using System;
 
 namespace employee_payroll_test
 {
+    /// <summary>
+    /// Employee Payroll UI
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
-            EmployeeRepo employee = new EmployeeRepo();
-            PayrollModel employeeModel = new PayrollModel() {basicPay=1000,deductions=200,taxablePay=100,NetPay=600 };
-
-
-            //EmpPayrollService empPayroll = new EmpPayrollService();
-            //empPayroll.FindSumAvgMinMax();
-
-            //employee.AddEmployeeUsingThread(100, 10, 200, 10, 1000);
 
             Console.WriteLine("Welcome to Employee Payroll Management Program based using ADO.NET Connected Framework \n");
 
 
             bool exit_Program = false;
-            
+            int emp_ID;
+
+            EmployeeTableModel employee1;
+            PayrollModel payroll;
+            EmpPayrollService payrollService = new EmpPayrollService();
 
             while (exit_Program != true)
             {
-                EmployeeTableModel employee1;
-                PayrollModel payroll;
-                EmpPayrollService payrollService = new EmpPayrollService();
-
-                int emp_ID;
-                string emp_Name;
-                string emp_Salary;
-                string emp_StartDate;
-                string emp_Gender;
-                string emp_BasicPay;
-                string emp_Deductions;
-                string emp_TaxablePay;
-                string emp_NetPay;
                 
 
                 Console.WriteLine("Choose among the following operations :");
@@ -45,7 +31,7 @@ namespace employee_payroll_test
                 Console.WriteLine("3: Update an existing Employee Payroll Data in Payroll Table ");
                 Console.WriteLine("4: Display all the current Employee's Payroll in Payroll Table");
                 Console.WriteLine("5: Display all the current Employee's Data in Employee Table ");
-                Console.WriteLine("6: Display Sum Avg Min Max Salary grouped by Gender <M,F> ");
+                Console.WriteLine("6: Display Sum Avg Min Max Salary grouped by Gender <F,M> ");
                 Console.WriteLine("7: Display Employee who joined between Date Range ");
                 Console.WriteLine("8: Delete specific Employee Payroll Data from Payroll Table");
                 Console.WriteLine("9: Exit Program");
@@ -56,7 +42,7 @@ namespace employee_payroll_test
 
                 switch (input_Option)
                 {
-                    case 1:
+                    case 1://Insert Payroll Data
                         
 
                         payroll = new PayrollModel();
@@ -84,7 +70,8 @@ namespace employee_payroll_test
 
                         break;
 
-                    case 2:
+                    case 2:// Insert Employee Data
+
                         employee1 = new EmployeeTableModel();
 
                         Console.WriteLine("Enter the Employee ID :");
@@ -110,7 +97,7 @@ namespace employee_payroll_test
 
                         break;
 
-                    case 3:
+                    case 3: //Update Payroll Data
 
                         payroll = new PayrollModel();
                         Console.WriteLine("Enter the Employee ID you want to update its details of:");
@@ -136,25 +123,25 @@ namespace employee_payroll_test
                         break;
 
 
-                    case 4:
+                    case 4: // Print Payroll Table Data
 
                         payrollService.getPayrollTableData();
 
                         break;
 
-                    case 5:
+                    case 5: // Print Employee Table Data
 
                         payrollService.getEmployeeTableData();
 
                         break;
 
-                    case 6:
+                    case 6: // Find Avg Min Max Sum of Payroll Table
 
                         payrollService.FindSumAvgMinMax();
 
                         break;
 
-                    case 7:
+                    case 7: // Search for Employee joined in between Date Range
 
                         Console.WriteLine("Enter the first Date <YYYY-MM-DD>");
 
@@ -168,7 +155,7 @@ namespace employee_payroll_test
 
                         break;
 
-                    case 8:
+                    case 8: // Delete Employee Data
 
                         Console.WriteLine("Enter the Employee ID you want to delete");
 
@@ -181,7 +168,7 @@ namespace employee_payroll_test
 
                         break;
 
-                    case 9:
+                    case 9: // Exit program
 
                         exit_Program = true;
                         break;
